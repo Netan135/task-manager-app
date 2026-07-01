@@ -1,5 +1,5 @@
 // API URL - change this to your deployed URL later
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://task-manager-app-fhiy.onrender.com';
 
 // DOM Elements
 const authContainer = document.getElementById('auth-container');
