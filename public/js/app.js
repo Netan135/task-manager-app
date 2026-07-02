@@ -1,4 +1,4 @@
-// API URL - change this to your deployed URL later
+// API URL - Empty means use same server
 const API_URL = '';
 
 // DOM Elements
@@ -52,7 +52,7 @@ registerForm.addEventListener('submit', async (e) => {
     const password = document.getElementById('register-password').value;
 
     try {
-        const response = await fetch(`${API_URL}/users/register`, {
+        const response = await fetch(`${API_URL}/api/users/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, password })
@@ -82,7 +82,7 @@ loginForm.addEventListener('submit', async (e) => {
     const password = document.getElementById('login-password').value;
 
     try {
-        const response = await fetch(`${API_URL}/users/login`, {
+        const response = await fetch(`${API_URL}/api/users/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -127,7 +127,7 @@ async function loadTasks() {
     if (!token) return;
 
     try {
-        const response = await fetch(`${API_URL}/tasks`, {
+        const response = await fetch(`${API_URL}/api/tasks`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -146,7 +146,7 @@ async function loadTasks() {
 // Render Tasks
 function renderTasks(tasks) {
     if (tasks.length === 0) {
-        taskList.innerHTML = '<div class="empty-message">No tasks yet. Add one above!</div>';
+        taskList.innerHTML = `<div class="empty-message">No tasks yet. Add one above!</div>`;
         return;
     }
 
@@ -184,7 +184,7 @@ addTaskBtn.addEventListener('click', async () => {
     if (!token) return;
 
     try {
-        const response = await fetch(`${API_URL}/tasks`, {
+        const response = await fetch(`${API_URL}/api/tasks`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -212,7 +212,7 @@ window.toggleTask = async (taskId, completed) => {
     if (!token) return;
 
     try {
-        const response = await fetch(`${API_URL}/tasks/${taskId}`, {
+        const response = await fetch(`${API_URL}/api/tasks/${taskId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -240,13 +240,13 @@ window.editTask = async (taskId) => {
     if (!token) return;
 
     try {
-        const response = await fetch(`${API_URL}/tasks/${taskId}`, {
+        const response = await fetch(`${API_URL}/api/tasks/${taskId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 title: newTitle.trim() || undefined,
                 description: newDescription.trim() || undefined
             })
@@ -268,7 +268,7 @@ window.deleteTask = async (taskId) => {
     if (!token) return;
 
     try {
-        const response = await fetch(`${API_URL}/tasks/${taskId}`, {
+        const response = await fetch(`${API_URL}/api/tasks/${taskId}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });
