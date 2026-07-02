@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const app = express();
 
-// Middleware - Allow all origins for public access
+// Middleware
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -19,8 +19,8 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Routes
-const userRoutes = require('./routes/userRoutes');
-const taskRoutes = require('./routes/taskRoutes');
+const userRoutes = require('./backend/routes/userRoutes');
+const taskRoutes = require('./backend/routes/taskRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
