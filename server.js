@@ -16,8 +16,8 @@ app.use(cors({
 // Parse JSON bodies
 app.use(express.json());
 
-// Serve static files from 'public' folder
-app.use(express.static('public'));
+// IMPORTANT: Serve static files from 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -36,7 +36,8 @@ app.get('/api/test', (req, res) => {
     res.json({ message: 'Task Manager API is running!' });
 });
 
-// Catch-all route - serve index.html for any other requests
+// IMPORTANT: Catch-all route - MUST be at the END
+// This serves index.html for any route not matched above
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
