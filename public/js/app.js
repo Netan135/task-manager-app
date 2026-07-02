@@ -288,7 +288,7 @@ if (isAuthenticated()) {
 } else {
     showAuthContainer();
 }
-
+//abc
 // Enter key support for adding tasks
 document.getElementById('task-title').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
