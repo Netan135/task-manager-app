@@ -1,19 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
 
-// Middleware
+// Middleware - Allow all origins for public access
 app.use(cors({
-    
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express.static('public'));
+
+// Parse JSON bodies
 app.use(express.json());
+
+// Serve static files from 'public' folder
+app.use(express.static('public'));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -21,15 +25,20 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Routes
-const userRoutes = require('./backend/routes/userRoutes');
-const taskRoutes = require('./backend/routes/taskRoutes');
+const userRoutes = require('./routes/userRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
 
 // Test route
-app.get('/', (req, res) => {
-    res.send('Task Manager API is running!');
+app.get('/api/test', (req, res) => {
+    res.json({ message: 'Task Manager API is running!' });
+});
+
+// Catch-all route - serve index.html for any other requests
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Start server
