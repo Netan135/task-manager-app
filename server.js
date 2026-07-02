@@ -6,17 +6,16 @@ require('dotenv').config();
 
 const app = express();
 
-// Middleware - Allow all origins for public access
+// Middleware
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Parse JSON bodies
 app.use(express.json());
 
-// IMPORTANT: Serve static files from 'public' folder
+// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB Connection
@@ -31,14 +30,14 @@ const taskRoutes = require('./routes/taskRoutes');
 app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
 
-// Test route
-app.get('/api/test', (req, res) => {
-    res.json({ message: 'Task Manager API is running!' });
+// Health check route
+app.get('/health', (req, res) => {
+    res.json({ status: 'OK', message: 'Task Manager API is running!' });
 });
 
-// IMPORTANT: Catch-all route - MUST be at the END
-// This serves index.html for any route not matched above
-app.get('*', (req, res) => {
+// IMPORTANT: Serve index.html for any unmatched routes
+// Use a function instead of app.get('*')
+app.use((req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
