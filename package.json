@@ -16,5 +16,13 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
-  }
+  },
+
+
+  "engines": {
+    "node": "18.x"
+  },
+  "keywords": ["task-manager", "nodejs", "express", "mongodb", "jwt"],
+  "author": "Netan Thakur netanthakur@25gmail.com",
+  "license": "MIT"
 }
